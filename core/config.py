@@ -1,0 +1,26 @@
+import os
+from dotenv import load_dotenv
+
+# 1. 自动加载 .env 文件
+# 获取项目根目录 (AIChef/)
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(ROOT_DIR, ".env"))
+
+# 2. 数据库配置
+# ⚠️ 注意：请去 data 文件夹确认你的数据库文件夹叫什么名字
+# 如果是 chroma_db_baai 就写这个，如果是 chroma_db_v3 就改一下
+DB_PATH = os.path.join(ROOT_DIR, "data", "chroma_db_baai")
+
+# Embedding 模型 (用于检索)
+EMBEDDING_MODEL_NAME = "BAAI/bge-small-zh-v1.5"
+# 强制使用国内镜像
+os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+
+# 3. 大模型配置 (用于生成)
+LLM_API_KEY = os.getenv("SILICONFLOW_API_KEY")
+LLM_BASE_URL = os.getenv("SILICONFLOW_BASE_URL")
+LLM_MODEL_NAME = os.getenv("SILICONFLOW_MODEL_NAME")
+
+# 简单检查
+if not LLM_API_KEY:
+    print("⚠️ 警告: 未检测到 LLM_API_KEY，生成功能将无法使用。")

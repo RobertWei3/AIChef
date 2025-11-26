@@ -1,0 +1,60 @@
+# ===== Python build & cache =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+
+# ===== Virtual environment =====
+.venv/
+env/
+venv/
+
+# ===== RAG / Vector DB =====
+# ChromaDB usually stores local sqlite + index files
+**/chroma_db/
+**/chroma/
+index/
+*.sqlite
+*.parquet
+*.npy
+*.bin
+
+# ===== Data files =====
+# Ignore all raw/intermediate recipe json datasets
+data/*.json
+!data/recipe_rag_ready.json
+
+# But keep final processed data if needed (optional):
+#!data/recipe_rag_ready.json  
+
+# ===== Logs & Outputs =====
+logs/
+*.log
+*.tmp
+*.out
+
+# ===== Editor / IDE =====
+.vscode/
+.idea/
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+
+# ===== Pip / build =====
+dist/
+build/
+*.egg-info/
+
+# ===== Cache =====
+.cache/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+rcp_venv/
+.env
+
+app/

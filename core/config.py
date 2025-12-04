@@ -10,6 +10,8 @@ load_dotenv(os.path.join(ROOT_DIR, ".env"))
 # ⚠️ 注意：请去 data 文件夹确认你的数据库文件夹叫什么名字
 # 如果是 chroma_db_baai 就写这个，如果是 chroma_db_v3 就改一下
 DB_PATH = os.path.join(ROOT_DIR, "data", "chroma_db_baai")
+DB_PATH_V3 = os.path.join(ROOT_DIR, "data", "chroma_db_v3")
+COLLECTION_NAME = "recipe_collection_v3"
 
 # Embedding 模型 (用于检索)
 EMBEDDING_MODEL_NAME = "BAAI/bge-small-zh-v1.5"

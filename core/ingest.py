@@ -8,7 +8,9 @@ from langchain_core.documents import Document
 from core.config import DB_PATH_V3, EMBEDDING_MODEL_NAME, COLLECTION_NAME
 
 # 1. 配置路径
-SOURCE_FILE = "data/recipe_rag_ready_fixed.json"
+# SOURCE_FILE = "data/recipe_rag_ready_fixed.json" 
+# 源文件在pull的时候没有找到，这里线换乘rag ready的文件
+SOURCE_FILE = "data/recipe_rag_ready.json"
 
 def ingest_data():
     # 检查源文件

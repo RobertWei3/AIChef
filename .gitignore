@@ -62,3 +62,4 @@ env/
 rcp_venv/
 .env
 
+package-lock.json

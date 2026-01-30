@@ -2,6 +2,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from core.config import DB_PATH_V3, EMBEDDING_MODEL_NAME, COLLECTION_NAME
 import torch
+import json
 
 class VectorDBManager:
     """
@@ -83,22 +84,53 @@ def retrieve_docs(query: str, top_k: int = 4, score_threshold: float = 1.0):
     # 格式化结果
     filtered_results = []
     print(f"🔎 [Retriever] 检索到 {len(results)} 条，阈值: {score_threshold}")
-    
+
     for doc, score in results:
-        print(f"   - {doc.metadata.get('name')} (Score: {score:.4f})")
-        # 恢复正常的阈值过滤
         if score <= score_threshold:
+            
+            # 1. 核心修复：解析 JSON 字符串回列表
+            # 如果 ingest 时存的是 json.dumps() 后的字符串，这里必须 loads 回来
+            instructions = doc.metadata.get('instructions', [])
+            if isinstance(instructions, str):
+                try:
+                    instructions = json.loads(instructions)
+                except:
+                    pass # 解析失败则保持原样
+
+            ingredients = doc.metadata.get('ingredients', [])
+            if isinstance(ingredients, str):
+                try:
+                    ingredients = json.loads(ingredients)
+                except:
+                    pass
+            
+            # 2. 构造返回对象
             filtered_results.append({
-                "id": doc.metadata.get('id', ''),          # 建议加上 ID
-                "name": doc.metadata.get('name', '未知'),
-                "tags": doc.metadata.get('tags', ''),
+                "id": doc.metadata.get('id', ''),
+                "title": doc.metadata.get('title') or doc.metadata.get('name', '未知'), # 兼容 title/name
                 "image": doc.metadata.get('image', ''),
-                
-                # ✅【新增关键修改】提取步骤数据
-                "instructions": doc.metadata.get('instructions', []), 
-                
-                "content": doc.page_content,
+                "ingredients": ingredients,   # 返回列表
+                "instructions": instructions, # 返回列表
                 "score": score
             })
+    
+    # for doc, score in results:
+    #     print(f"   - {doc.metadata.get('name')} (Score: {score:.4f})")
+    #     # 恢复正常的阈值过滤
+    #     if score <= score_threshold:
+    #         filtered_results.append({
+    #             "id": doc.metadata.get('id', ''),          # 建议加上 ID
+    #             "name": doc.metadata.get('name', '未知'),
+    #             "tags": doc.metadata.get('tags', ''),
+    #             "image": doc.metadata.get('image', ''),
+                
+    #             # ✅【新增关键修改】提取步骤数据
+    #             "instructions": doc.metadata.get('instructions', []), 
+                
+    #             "content": doc.page_content,
+    #             "score": score
+    #         })
+
+
             
     return filtered_results

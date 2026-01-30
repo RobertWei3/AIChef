@@ -8,7 +8,7 @@ llm = None
 
 # 1. 优先检查 SiliconFlow / DeepSeek (OpenAI 兼容接口)
 if LLM_API_KEY:
-    print(f"✅ 使用 SiliconFlow/DeepSeek API (model: {LLM_MODEL_NAME})")
+    print(f"✅ 使用 SiliconFlow (model: {LLM_MODEL_NAME})")
     llm = ChatOpenAI(
         model=LLM_MODEL_NAME,
         api_key=LLM_API_KEY,

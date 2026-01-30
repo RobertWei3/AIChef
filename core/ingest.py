@@ -1,16 +1,23 @@
-import json
+import sys
 import os
+# Add the project root to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import json
 import shutil
 import torch
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
-from core.config import DB_PATH_V3, EMBEDDING_MODEL_NAME, COLLECTION_NAME
+from core.config import DB_PATH_V3, EMBEDDING_MODEL_NAME, COLLECTION_NAME, SOURCE_FILE
 
 # 1. 配置路径
 # SOURCE_FILE = "data/recipe_rag_ready_fixed.json" 
 # 源文件在pull的时候没有找到，这里线换乘rag ready的文件
-SOURCE_FILE = "data/recipe_rag_ready.json"
+# SOURCE_FILE = "data/recipe_rag_ready.json"
+
+# 源文件位置update
+SOURCE_FILE = SOURCE_FILE
 
 def ingest_data():
     # 检查源文件
@@ -64,6 +71,10 @@ def ingest_data():
         # 这一步非常关键！否则 instructions 也会报错
         if 'instructions' in meta and isinstance(meta['instructions'], list):
             meta['instructions'] = json.dumps(meta['instructions'], ensure_ascii=False)
+
+        # 3. 🔥 新增：处理 ingredients (就是它导致的报错！)
+        if 'ingredients' in meta and isinstance(meta['ingredients'], list):
+            meta['ingredients'] = json.dumps(meta['ingredients'], ensure_ascii=False)
 
         doc = Document(
             page_content=item['page_content'],

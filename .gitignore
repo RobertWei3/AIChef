@@ -29,6 +29,7 @@ data/chroma_db_*/
 data/chroma_db_baai/
 data/chroma_db_v3/
 data/raw/
+data/processed
 
 # But keep final processed data if needed (optional):
 #!data/recipe_rag_ready.json  
@@ -63,3 +64,9 @@ rcp_venv/
 .env
 
 package-lock.json
+
+# frontented image
+frontend/public/recipe_images/
+
+# experiment file
+eng_experiments/

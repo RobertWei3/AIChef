@@ -13,6 +13,9 @@ DB_PATH = os.path.join(ROOT_DIR, "data", "chroma_db_baai")
 DB_PATH_V3 = os.path.join(ROOT_DIR, "data", "chroma_db_v3")
 COLLECTION_NAME = "recipe_collection_v3"
 
+# 数据source file 位置
+SOURCE_FILE = "data/rag_ready_final.json"
+
 # Embedding 模型 (用于检索)
 EMBEDDING_MODEL_NAME = "BAAI/bge-small-zh-v1.5"
 # 强制使用国内镜像
@@ -23,8 +26,7 @@ os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
 LLM_API_KEY = os.getenv("SILICONFLOW_API_KEY")
 LLM_BASE_URL = os.getenv("SILICONFLOW_BASE_URL")
 LLM_MODEL_NAME = (os.getenv("SILICONFLOW_MODEL_NAME") or "").split("#")[0].strip()
-
-
+LLM_MODEL_IMG_NAME = (os.getenv("SILICONFLOW_PIC_MODEL_NAME") or "").split("#")[0].strip()
 
 # 简单检查
 if not LLM_API_KEY:

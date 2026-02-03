@@ -28,6 +28,23 @@ LLM_BASE_URL = os.getenv("SILICONFLOW_BASE_URL")
 LLM_MODEL_NAME = (os.getenv("SILICONFLOW_MODEL_NAME") or "").split("#")[0].strip()
 LLM_MODEL_IMG_NAME = (os.getenv("SILICONFLOW_PIC_MODEL_NAME") or "").split("#")[0].strip()
 
+# Rerank 配置
+RERANK_API_KEY = os.getenv("RERANK_API_KEY")
+RERANK_BASE_URL = os.getenv("RERANK_BASE_URL")
+RERANK_MODEL_NAME = (os.getenv("RERANK_MODEL_NAME") or "").split("#")[0].strip()
+
 # 简单检查
 if not LLM_API_KEY:
     print("⚠️ 警告: 未检测到 SiliconFlow API 配置，生成功能将无法使用。")
+
+
+# ===========================
+# ⚡️ Redis Cache Configuration(test)
+# ===========================
+# 1. 地址: 如果是在你本机运行代码，Docker 也是本机，这里就是 localhost
+REDIS_HOST = "localhost"
+# 2. 端口: 默认都是 6379
+REDIS_PORT = 6379
+# 3. 密码: 必须和你 Docker 启动命令里设置的一模一样！
+# 如果你用的方案 A (无密码)，这里这就填 None
+REDIS_PASSWORD = None
